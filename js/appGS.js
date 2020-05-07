@@ -1,3 +1,7 @@
+//PROYECTO FINALIZADO
+
+
+
 //Variables
 const presupuestoUsuario = prompt('Cual es tu presupuesto semanal: ');
 
@@ -34,6 +38,7 @@ class Interfaz{
           const divMensaje = document.createElement('div');
 
           divMensaje.classList.add('text-center','alert');
+          
 
           if(tipo === 'error'){
                divMensaje.classList.add('alert-danger');
@@ -52,6 +57,8 @@ class Interfaz{
                formulario.reset();
           },3000);
      }
+
+
 
      //Inserta los gastos a la lista
      agregarGastoListado(nombre,cantidad){
@@ -137,12 +144,12 @@ formulario.addEventListener('submit', function(e){
      if(nombreGasto === "" || cantidadGasto === ""){
 
           //2 parametros: mensaje y tipo
-          ui.imprimirMensaje('Hubo un error','error');
+          ui.imprimirMensaje('Hubo un error :(','error');
 
      }else{
 
           //Imprimir en el HTML
-          ui.imprimirMensaje('todo bien','success');
+          ui.imprimirMensaje('Registro exitoso!! :D','success');
           ui.agregarGastoListado(nombreGasto, cantidadGasto);
 
           ui.presupuestoRestante(cantidadGasto);
