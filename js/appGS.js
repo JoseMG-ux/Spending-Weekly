@@ -1,5 +1,7 @@
 //Variables
 const presupuestoUsuario = prompt('Cual es tu presupuesto semanal: ');
+
+const formulario = document.getElementById('agregar-gasto');
 let cantidadPresupuesto;
 
 
@@ -22,10 +24,48 @@ class presupuesto {
 class Interfaz{
      insertarPresupuesto(cantidad){
          const presupuestoSpan = document.querySelector('span#total');
-         const restanteSpan = document.querySelector('span500#restante');
+         const restanteSpan = document.querySelector('span#restante');
 
          presupuestoSpan.innerHTML = `${cantidad}`;
          restanteSpan.innerHTML = `${cantidad}`;
+     }
+
+     imprimirMensaje(mensaje,tipo){
+          const divMensaje = document.createElement('div');
+
+          divMensaje.classList.add('text-center','alert');
+
+          if(tipo === 'error'){
+               divMensaje.classList.add('alert-danger');
+          }else{
+               divMensaje.classList.add('alert-success');
+          }
+          divMensaje.appendChild(document.createTextNode(mensaje));
+          //Insertar en el DOM
+
+          document.querySelector('.primario').insertBefore(divMensaje, formulario);
+
+          //quitar el alert despues de 3 seg
+
+          setTimeout(function(){
+               document.querySelector('.primario .alert').remove().reset();
+          },3000);
+     }
+
+     //Inserta los gastos a la lista
+     agregarGastoListado(nombre,cantidad){
+          const gastosListado = document.querySelector('#gastos ul');
+
+          //Creal li
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+          //Insertar el gasto
+          li.innerHTML = `
+               ${nombre}
+              <span class="badge badge-primary badge-pill"> $ ${cantidad} </span>
+          `;
+          gastosListado.appendChild(li);
      }
 }
 
@@ -39,9 +79,36 @@ document.addEventListener('DOMContentLoaded', function(){
      }else{
           //Instanticiar un presupuesto
           cantidadPresupuesto = new presupuesto(presupuestoUsuario);
+
           //Instanciar la clase de interfaz
           const ui = new Interfaz();
           ui.insertarPresupuesto(cantidadPresupuesto.presupuesto);
           
      }
-})
+});
+
+formulario.addEventListener('submit', function(e){
+     e.preventDefault();
+     
+
+     //Leer del formulario de gastos
+
+     const nombreGasto = document.querySelector('#gasto').value;
+     const cantidadGasto = document.querySelector('#cantidad').value;
+
+
+     //Instanciar la interfaz
+
+     const ui = new Interfaz();
+     
+     //Comprobar que los campos no esten vacios
+
+     if(nombreGasto === "" || cantidadGasto === ""){
+          //2 parametros: mensaje y tipo
+          ui.imprimirMensaje('Hubo un error','error');
+     }else{
+          //Imprimir en el HTML
+          ui.imprimirMensaje('todo bien','success');
+          ui.agregarGastoListado(nombreGasto, cantidadGasto);
+     }
+});
