@@ -48,7 +48,8 @@ class Interfaz{
           //quitar el alert despues de 3 seg
 
           setTimeout(function(){
-               document.querySelector('.primario .alert').remove().reset();
+               document.querySelector('.primario .alert').remove();
+               formulario.reset();
           },3000);
      }
 
@@ -66,6 +67,17 @@ class Interfaz{
               <span class="badge badge-primary badge-pill"> $ ${cantidad} </span>
           `;
           gastosListado.appendChild(li);
+     }
+
+     //Comprueba el presupuesto restante
+     presupuestoRestante(cantidad){
+          const restante = document.querySelector('span#restante');
+          
+          //Leemos el presupuesto restante
+
+          const presupuestoRestanteUsuario = cantidadPresupuesto.presupuestoRestante(cantidad)
+
+          restante.innerHTML = `${presupuestoRestanteUsuario}`
      }
 }
 
@@ -110,5 +122,7 @@ formulario.addEventListener('submit', function(e){
           //Imprimir en el HTML
           ui.imprimirMensaje('todo bien','success');
           ui.agregarGastoListado(nombreGasto, cantidadGasto);
+
+          ui.presupuestoRestante(cantidadGasto);
      }
 });
