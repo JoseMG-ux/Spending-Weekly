@@ -73,11 +73,33 @@ class Interfaz{
      presupuestoRestante(cantidad){
           const restante = document.querySelector('span#restante');
           
-          //Leemos el presupuesto restante
 
+          //Leemos el presupuesto restante
           const presupuestoRestanteUsuario = cantidadPresupuesto.presupuestoRestante(cantidad)
 
-          restante.innerHTML = `${presupuestoRestanteUsuario}`
+          restante.innerHTML = `${presupuestoRestanteUsuario}`;
+
+          this.comprobarPresupuesto();
+     }
+
+
+     //Cambia de color el presupuesto restante
+     comprobarPresupuesto(){
+          const presupuestoTotal = cantidadPresupuesto.presupuesto;
+          const presupuestoRestante = cantidadPresupuesto.restante;
+
+
+          //Comprobar el 25% del gasto
+
+          if((presupuestoTotal / 4) > presupuestoRestante){
+               const restante = document.querySelector('.restante');
+                    restante.classList.remove('alert-success','alert-warning');
+                    restante.classList.add('alert-danger');               
+          }else if((presupuestoTotal / 2) > presupuestoRestante){
+               const restante = document.querySelector('.restante');
+                    restante.classList.remove('alert-success');
+                    restante.classList.add('alert-warning'); 
+          }
      }
 }
 
@@ -104,21 +126,21 @@ formulario.addEventListener('submit', function(e){
      
 
      //Leer del formulario de gastos
-
      const nombreGasto = document.querySelector('#gasto').value;
      const cantidadGasto = document.querySelector('#cantidad').value;
 
 
      //Instanciar la interfaz
-
      const ui = new Interfaz();
      
      //Comprobar que los campos no esten vacios
-
      if(nombreGasto === "" || cantidadGasto === ""){
+
           //2 parametros: mensaje y tipo
           ui.imprimirMensaje('Hubo un error','error');
+
      }else{
+
           //Imprimir en el HTML
           ui.imprimirMensaje('todo bien','success');
           ui.agregarGastoListado(nombreGasto, cantidadGasto);
