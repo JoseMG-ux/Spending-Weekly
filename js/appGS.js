@@ -1,4 +1,4 @@
-//PROYECTO FINALIZADO
+//Finish project
 
 
 
@@ -10,21 +10,20 @@ let cantidadPresupuesto;
 
 
 
-//Clases
+//Classes
 class presupuesto {
      constructor(presupuesto) {
           this.presupuesto = Number(presupuesto);
           this.restante = Number(presupuesto);
      }
-      //Metodo para ir restando del presupuesto actual
+      //Method to subtract from the current budget
       presupuestoRestante(cantidad = 0){
            return this.restante -= Number(cantidad);
       }
 }
 500
 
-//Clase de interfaz maneja todo del HTML
-
+//Interface class handles all HTML
 class Interfaz{
      insertarPresupuesto(cantidad){
          const presupuestoSpan = document.querySelector('span#total');
@@ -46,11 +45,11 @@ class Interfaz{
                divMensaje.classList.add('alert-success');
           }
           divMensaje.appendChild(document.createTextNode(mensaje));
-          //Insertar en el DOM
+          //Insert in to DOM
 
           document.querySelector('.primario').insertBefore(divMensaje, formulario);
 
-          //quitar el alert despues de 3 seg
+          //Remove alert after 3 sec
 
           setTimeout(function(){
                document.querySelector('.primario .alert').remove();
@@ -60,15 +59,15 @@ class Interfaz{
 
 
 
-     //Inserta los gastos a la lista
+     //Insert expenses to the list
      agregarGastoListado(nombre,cantidad){
           const gastosListado = document.querySelector('#gastos ul');
 
-          //Creal li
+          //Create li
           const li = document.createElement('li');
           li.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-          //Insertar el gasto
+          //Insert expenses
           li.innerHTML = `
                ${nombre}
               <span class="badge badge-primary badge-pill"> $ ${cantidad} </span>
@@ -76,12 +75,12 @@ class Interfaz{
           gastosListado.appendChild(li);
      }
 
-     //Comprueba el presupuesto restante
+     //Check the remaining budget
      presupuestoRestante(cantidad){
           const restante = document.querySelector('span#restante');
           
 
-          //Leemos el presupuesto restante
+          //We read the remaining budget
           const presupuestoRestanteUsuario = cantidadPresupuesto.presupuestoRestante(cantidad)
 
           restante.innerHTML = `${presupuestoRestanteUsuario}`;
@@ -90,14 +89,13 @@ class Interfaz{
      }
 
 
-     //Cambia de color el presupuesto restante
+     //Change the remaining budget color
      comprobarPresupuesto(){
           const presupuestoTotal = cantidadPresupuesto.presupuesto;
           const presupuestoRestante = cantidadPresupuesto.restante;
 
 
-          //Comprobar el 25% del gasto
-
+          //Check 25% of spending
           if((presupuestoTotal / 4) > presupuestoRestante){
                const restante = document.querySelector('.restante');
                     restante.classList.remove('alert-success','alert-warning');
@@ -115,13 +113,13 @@ class Interfaz{
 document.addEventListener('DOMContentLoaded', function(){
 
      if(presupuestoUsuario === null || presupuestoUsuario === ''){
-          window.location.reload();//Recarga la pagina
+          window.location.reload();//Recharger page
 
      }else{
-          //Instanticiar un presupuesto
+          //Instantiate a budget
           cantidadPresupuesto = new presupuesto(presupuestoUsuario);
 
-          //Instanciar la clase de interfaz
+          //Instantiate interface class
           const ui = new Interfaz();
           ui.insertarPresupuesto(cantidadPresupuesto.presupuesto);
           
@@ -132,23 +130,23 @@ formulario.addEventListener('submit', function(e){
      e.preventDefault();
      
 
-     //Leer del formulario de gastos
+     //Read the expense form
      const nombreGasto = document.querySelector('#gasto').value;
      const cantidadGasto = document.querySelector('#cantidad').value;
 
 
-     //Instanciar la interfaz
+     //Instantiate interface class
      const ui = new Interfaz();
      
-     //Comprobar que los campos no esten vacios
+     //Check that the fields are not empty
      if(nombreGasto === "" || cantidadGasto === ""){
 
-          //2 parametros: mensaje y tipo
+          //2 parameters: msj and type
           ui.imprimirMensaje('Hubo un error :(','error');
 
      }else{
 
-          //Imprimir en el HTML
+          //Print in the HTML
           ui.imprimirMensaje('Registro exitoso!! :D','success');
           ui.agregarGastoListado(nombreGasto, cantidadGasto);
 
